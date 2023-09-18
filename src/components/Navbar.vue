@@ -1,5 +1,5 @@
 <template>
-  <nav class="mb-2 mt-1 justify-content-between bg-secondary navbar navbar-expand-lg px-3">
+  <nav class="mb-2 mt-1 bg-secondary navbar navbar-expand-lg px-3">
     <!-- ROUTER LINK TO HOME PAGE -->
     <router-link :to="{ name: 'Home' }">
       <div class="m-0 p-0 logo-container">
@@ -7,28 +7,24 @@
       </div>
     </router-link>
 
+    <!-- Spacing for Search and Login Components -->
+    <div class="d-flex justify-content-evenly align-items-center w-100">
+      <!-- Search Component -->
+      <div class="mb-2 mb-lg-0">
+        <Search />
+      </div>
+      <div></div>
 
-
-
-
-    <div class="" id="navbarText">
-      <!-- TODO Activate Search Bar-->
-      <SearchBar />
-
-      <ul class="navbar-nav me-auto">
-        <li>
-          <!-- about router link -->
-          <!-- <router-link :to="{ name: 'About' }" class="btn text-success lighten-30 selectable text-uppercase">
-            About
-          </router-link> -->
-          <!-- about router link -->
-        </li>
-      </ul>
-      <!-- LOGIN COMPONENT HERE -->
-      <Login />
+      <!-- Login Component -->
+      <div class="d-flex justify-content-end">
+        <Login />
+      </div>
     </div>
   </nav>
 </template>
+
+
+
 
 <script>
 import Login from './Login.vue';

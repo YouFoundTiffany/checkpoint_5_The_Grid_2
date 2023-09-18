@@ -8,8 +8,8 @@
           class="mdi mdi-arrow-right"></i></button>
     </div>
     <button @click="openPostForm">Make a Post</button>
-    <!--  create Post component template -->
-    <!-- <PostForm v-if="showPostForm" @close="closePostForm" /> -->
+
+    <PostForm v-if="showPostForm" @close="closePostForm" />
   </section>
   <!-- ⬆️newer older buttons -->
 
@@ -61,14 +61,14 @@ export default {
         // logger.log('2 Hello from getPosts on HomePage', posts.value)
       }
     }
-    // const showPostForm = ref(false);
+    const showPostForm = ref(false);
 
-    // function openPostForm() {
-    //   showPostForm.value = true;
-    // }
-    // function closePostForm() {
-    //   showPostForm.value = false;
-    // }
+    function openPostForm() {
+      showPostForm.value = true;
+    }
+    function closePostForm() {
+      showPostForm.value = false;
+    }
 
     async function getStories() {
       try {
@@ -121,9 +121,9 @@ export default {
       totalPages: computed(() => AppState.totalPages),
       searchTerm: computed(() => AppState.searchTerm),
       profiles: computed(() => AppState.profiles),
-      // showPostForm,
-      // openPostForm,
-      // closePostForm,
+      showPostForm,
+      openPostForm,
+      closePostForm,
       changePage,
       changePageWithSearch,
       // getProfiles,

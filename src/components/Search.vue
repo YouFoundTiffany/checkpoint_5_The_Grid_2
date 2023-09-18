@@ -28,16 +28,20 @@ export default {
         return {
             searchTerm,
             activeSearch: computed(() => AppState.searchTerm),
-            async searchPosts(event) { // if the @handler doesn't have () then it passes the even as the first argument always
+
+            async searchPosts(searchTerm) {
                 try {
-                    logger.log('🔮 searching', searchTerm.value)
-                    await postsService.searchPosts(searchTerm.value)
-                    // logger.log(event.target) clearing from the old way
-                    // event.target.reset()
+                    const response = await api.get(`/api/posts?query=${searchTerm}`);
+                    logger.log('🔮', response.data);
+                    this.posts = response.data.posts.map(post => new Post(post));
+                    this.pageNumber = response.data.page;
+                    this.totalPages = response.data.totalPages;
+                    this.searchTerm = searchTerm;
                 } catch (error) {
-                    Pop.error(error)
+                    Pop.error(error);
                 }
             },
+
             async clearSearch() {
                 try {
                     if (await Pop.confirm('Clear search results?')) {
@@ -53,6 +57,7 @@ export default {
     }
 };
 </script>
+
 
 
 <style lang="scss" scoped></style>

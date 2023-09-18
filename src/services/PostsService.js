@@ -2,65 +2,65 @@ import { AppState } from "../AppState.js"
 import { Post } from "../models/Post.js"
 import { Profile } from "../models/Profile.js"
 import { logger } from "../utils/Logger.js"
+import Pop from "../utils/Pop.js"
 import { api } from "./AxiosService.js"
 
 class PostsService {
-
     async getPosts() {
-        const response = await api.get('api/posts')
-        logger.log('Its Getting Posts! Posts Service reporting in📖', response.data)
-        AppState.posts = response.data.posts.map(post => new Post(post))
-        AppState.pageNumber = response.data.page
-        AppState.totalPages = response.data.total_pages
+        const response = await api.get('api/posts');
+        logger.log('Its Getting Posts! Posts Service reporting in📖', response.data);
+        AppState.posts = response.data.posts.map(post => new Post(post));
+        AppState.pageNumber = response.data.page;
+        AppState.totalPages = response.data.total_pages;
     }
-    // combo? get posts and then send a different appstate return?
 
-    // async getProfiles() {
-    //     const response = await api.get('api/posts')
-    //     logger.log('Its Getting Postsfor the Profiles, response.data', response.data.posts)
-    //     AppState.posts = response.data.posts.map(profile => new Profile(profile))
-    // }
     async createPost(postData) {
-        const response = await api.post('api/posts', postData)
-        logger.log('new post 📖', response.data)
-        const newPost = new Post(response.data)
-        AppState.post.push(newPost)
-        return newPost
+        const response = await api.post('api/posts', postData);
+        logger.log('new post 📖', response.data);
+        const newPost = new Post(response.data);
+        AppState.posts.push(newPost); // Corrected "AppState.post" to "AppState.posts"
+        return newPost;
     }
 
     async removePost(postId) {
-        const response = await api.delete(`api/posts/${postId}`)
-        logger.log('removed post 📖', response.data)
-        AppState.activePost = null
+        const response = await api.delete(`api/posts/${postId}`);
+        logger.log('removed post 📖', response.data);
+        AppState.activePost = null;
 
-        let indexToRemove = AppState.post.findIndex(post => post.id == postId)
+        let indexToRemove = AppState.posts.findIndex(post => post.id == postId); // Corrected "AppState.post" to "AppState.posts"
         if (indexToRemove >= 0) {
-            AppState.posts.splice(indexToRemove, 1)
+            AppState.posts.splice(indexToRemove, 1);
         }
     }
-    async searchPosts(searchTerm) {
-        const response = await api.get(`/api/posts?query=${searchTerm}`);
-        logger.log('🔮', response.data)
-        AppState.posts = response.data.posts.map(post => new Post(post));
-        AppState.pageNumber = response.data.page;
-        AppState.totalPages = response.data.totalPages;
-        AppState.searchTerm = searchTerm;
+
+    async searchPosts(searchTerm) { // Removed "event" parameter
+        try {
+            logger.log('🔮 searching', searchTerm);
+            const response = await api.get(`/api/posts?query=${searchTerm}`);
+            logger.log('🔮', response.data);
+            AppState.posts = response.data.posts.map(post => new Post(post));
+            AppState.pageNumber = response.data.page;
+            AppState.totalPages = response.data.total_pages;
+            AppState.searchTerm = searchTerm;
+        } catch (error) {
+            Pop.error(error);
+        }
     }
 
     async clearSearch() {
-        AppState.searchTerm = ''
-        await postsService.getPosts()
-
+        AppState.searchTerm = '';
+        await this.getPosts(); // Changed "postsService.getPosts()" to "this.getPosts()"
     }
 
     async changePage(url) {
-        logger.log('📄', url)
-        const response = await api.get(url)
-        logger.log('nuther page', response.data)
-        AppState.posts = response.data.posts.map(posts => new posts(posts))
-        // AppState.pageNumber =number
-        AppState.pageNumber = response.data.page
-        AppState.totalPages = response.data.total_pages
+        logger.log('📄', url);
+        const response = await api.get(url);
+        logger.log('nuther page', response.data);
+        AppState.posts = response.data.posts.map(post => new Post(post)); // Corrected "new posts" to "new Post"
+        AppState.pageNumber = response.data.page;
+        AppState.totalPages = response.data.total_pages;
     }
 }
-export const postsService = new PostsService()
+
+export const postsService = new PostsService();
+

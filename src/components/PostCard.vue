@@ -1,6 +1,6 @@
 <template>
     <div @click="showPostDetails" class="g-4 p-1 mb-4 card elevation-3 border border-secondary">
-        <img :src="post.creatorPicture" class="profile-pic" alt="">
+        <img :src="post.creatorPicture" class="btnclicky profile-pic" alt="">
         <h4 class="">{{ post.creatorName }}</h4>
         <p>{{ formatCreatedAt(post.createdAt) }}</p>
         <p>{{ post.body }}</p>
@@ -49,11 +49,14 @@ export default {
     setup(props) {
         const postData = ref(null);
         onMounted(() => {
-            logger.log('datafromappstate', postData.value)
+            // logger.log('datafromappstate', postData.value)
         });
 
         return {
             postData,
+            activePost: computed(() => AppState.activePost),
+            account: computed(() => AppState.account),
+
 
             async postVote() {
                 try {
@@ -67,6 +70,19 @@ export default {
                     Pop.error(error);
                 }
             },
+            async deletePost() {
+                try {
+                    if (await Pop.confirm('Are you sure?')) {
+                        const postId = AppState.activePost.id
+                        await postsService.removePost(postId)
+
+                    }
+
+
+                } catch (error) {
+                    Pop.error(error)
+                }
+            }
         }
     },
 };
