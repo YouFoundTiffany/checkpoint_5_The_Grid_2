@@ -131,9 +131,9 @@ export default {
 }
 
 .post-image {
-    height: 20vh;
+    height: 75vh;
     width: 100%;
     object-fit: cover;
-    object-position: center;
+    object-position: center center;
 }
 </style>
