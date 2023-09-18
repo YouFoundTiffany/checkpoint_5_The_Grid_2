@@ -3,19 +3,20 @@
  -->
     <!-- TODO 🛑 GET RESULTS TO RENDER-->
     <!-- NOTE .prevent works the same as event.preventDefault() -->
-    <form @submit.prevent="searchPosts" class="row">
+    <form @submit.prevent="searchProfs" class="row">
         <div class="col-12 input-group">
             <input v-model="searchTerm" type="text" class="form-control" placeholder="search posts">
             <!-- FIXME MAKE SURE TO HAVE YOUR BUTTON SUBMIT THE FORM -->
             <button type=submit class="btn btn-secondary"><i class="mdi mdi-magnify"></i></button>
         </div>
     </form>
-    <div v-if="activeSearch" class="mt-2">
-        searching results for:
-
-        <span class="border border-primary rounded-pill p-2">{{ activeSearch }} <button @click="clearSearch" class="btn"><i
-                    class="mdi mdi-close"></i></button></span>
-    </div>
+    <!-- NOTE no longer have function? -->
+    <!-- <div v-if="activeSearch" class="mt-2">
+        searching results for: -->
+    <!--
+    <span class="border border-primary rounded-pill p-2">{{ activeSearch }} <button @click="clearSearch" class="btn"><i
+                class="mdi mdi-close"></i></button></span> -->
+    <!-- </div> -->
 </template>
 <!-- TODO 🛑 This query returns object that is not by the id, it is all posts.
     https://sandbox.codeworksacademy.com/api/profiles/64f211b326bf1902902083c6/posts -->
@@ -31,6 +32,8 @@ import { api } from '../services/AxiosService.js';
 import { Post } from '../models/Post.js';
 Post
 
+// REVIEW   const searchTerm = ref({}) VS      const searchTerm = ref('')
+
 
 
 export default {
@@ -42,7 +45,7 @@ export default {
             searchTerm,
             activeSearch: computed(() => AppState.searchTerm),
 
-            async searchPosts(searchTerm) {
+            async searchProfs(searchTerm) {
                 try {
                     const response = await api.get(`/api/posts?query=${searchTerm}`);
                     logger.log('🔮', response.data);

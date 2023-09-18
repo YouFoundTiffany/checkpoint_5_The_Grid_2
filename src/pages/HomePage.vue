@@ -19,9 +19,9 @@
       <button @click="changePage(pageNumber + 1)" :disabled="pageNumber >= totalPages"
         class="col-3 circuit-button text-black">Older<i class="mdi mdi-arrow-right"></i></button>
     </div>
-    <button class="tron-button text-black bold-font" @click="openPostForm">Make a Post</button>
+    <button class="tron-button text-black bold-font" v-if="account.id" @click="openPostForm">Make a Post</button>
 
-    <PostForm v-if="showPostForm" @close="closePostForm" />
+    <PostForm v-if="account.id" @close="closePostForm" />
   </section>
   <!-- ⬆️newer older buttons -->
 
@@ -32,7 +32,7 @@
         <!-- TODO GET NEW POSTS TO RENDER WHEN THEY ARE POSTED. -->
         <!-- ⬇️POSTS TEMPLATE -->
         <!-- <PostCard v-for="post in posts" :key="post.id" :post="post" :profile="profile" creatorId="post.creatorId" /> -->
-        <PostCard v-for="post in posts" :key="post.id" :post="post" :profile="profile" :creatorId="post.creatorId" />
+        <PostCard v-for="post in posts" :key="post.id" :post="post" :creatorId="post.creatorId" />
 
 
         <!-- ⬆️POSTS TEMPLATE -->
@@ -61,9 +61,9 @@ import { inject } from 'vue';
 
 
 export default {
-  props: {
-    profile: { type: Object, required: true },
-  },
+  // props: {
+  //   profile: { type: Object, required: true },
+  // },
   setup() {
     const posts = ref(null);
     // GET POSTS FUNCTION
@@ -95,13 +95,6 @@ export default {
       }
     }
 
-    // async function getProfiles() {
-    //   try {
-    //     await postsService.getPosts()
-    //   } catch (error) {
-    //     Pop.error(error)
-    //   }
-    // }
 
 
     // SECTION PAGING POSTS FUNCTIONS
@@ -138,6 +131,7 @@ export default {
       totalPages: computed(() => AppState.totalPages),
       searchTerm: computed(() => AppState.searchTerm),
       profiles: computed(() => AppState.profiles),
+      account: computed(() => AppState.account),
       showPostForm,
       openPostForm,
       closePostForm,

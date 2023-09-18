@@ -7,14 +7,14 @@
     <div class="g-4 p-1 mb-4 card elevation-3 ">
         <img :src="post.creatorPicture" class="btnclicky profile-pic" alt="">
         <h4 class="">{{ post.creatorName }}</h4>
-        <p>{{ formatCreatedAt(post.createdAt) }}</p>
+        <p>{{ post.createdAt.toLocaleDateString() }}</p>
         <p>{{ post.body }}</p>
         <img class="post-image" :src="post.imgUrl" alt="">
         <i @click="postVote()" class="mdi mdi-laptop btnclicky">{{
             post.likes.length }}</i>
         <img :src="post.likeIds" class="img-fluid rounded-top" alt="">
         <!-- FIXME MAKE SURE TO ONLY SHOW IF IM THE USER THAT CREATED THIS POST -->
-        <i v-if="showButton" @click="deletePost()" class="mdi mdi-select-remove btnclicky"></i>
+        <i v-if="post.creatorId == account.id" @click="deletePost()" class="mdi mdi-select-remove btnclicky fs-1"></i>
         <!-- TODO FIGURE OUT HWTO GET LIKE IDS TO DISPLAY NAME. -->
 
     </div>
@@ -41,37 +41,10 @@ export default {
 
     props: {
         post: { type: Post, required: true },
-        profile: { type: Profile, required: true }, showButton: { type: Boolean, default: false },
-    },
-    methods: {
-        formatCreatedAt(createdAt) {
-            const createdAtDate = new Date(createdAt);
-            const now = new Date();
-            const timeDifference = now - createdAtDate;
-            const hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
-
-            if (hoursDifference < 24) {
-                return `${hoursDifference} hours ago`;
-            } else {
-                return createdAtDate.toLocaleDateString();
-            }
-        },
-        async deletePost() {
-            try {
-                if (await Pop.confirm('Are you sure?')) {
-                    const postId = this.post.id;
-                    await postsService.removePost(postId);
-
-                    const postIndex = AppState.posts.findIndex(post => post.id == postId);
-                    if (postIndex !== -1) {
-                        AppState.posts.splice(postIndex, 1);
-                    }
-                    Pop.toast('Post deleted successfully');
-                }
-            } catch (error) {
-                Pop.error(error);
-            }
-        }
+        // profile: { type: Profile, required: true },
+        // props: {
+        //     showButton: { type: Boolean, default: false }, id: { type: String, required: true },
+        // },
     },
 
     setup(props) {
@@ -84,21 +57,25 @@ export default {
         });
 
         return {
-            AppState,
+
             postData,
             activePost: computed(() => AppState.activePost),
             account: computed(() => AppState.account),
 
+            formattedDate: computed(() => {
+                const createdAtDate = props.post.createdAt;
+                const now = new Date();
+                const timeDifference = now - createdAtDate;
+                const hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
 
-            // goToProfileById,
-            // async goToProfileById() {
-            //     try {
-            //         await router.push({ name: 'UserProfile', params: { id: props.profile.id } });
-            //         logger.log('is this on?');
-            //     } catch (error) {
-            //         Pop.error(error);
-            //     }
-            // },
+                if (hoursDifference < 24) {
+                    return `${hoursDifference} hours ago`;
+                } else {
+                    return createdAtDate.toLocaleDateString();
+                }
+            }),
+
+
 
             async postVote() {
                 try {
@@ -112,11 +89,27 @@ export default {
                     Pop.error(error);
                 }
             },
+            async deletePost() {
+                try {
+                    if (await Pop.confirm('Are you sure?')) {
+                        const postId = this.post.id;
+                        await postsService.removePost(postId);
+
+                        const postIndex = AppState.posts.findIndex(post => post.id == postId);
+                        if (postIndex !== -1) {
+                            AppState.posts.splice(postIndex, 1);
+                        }
+                        Pop.toast('Post deleted successfully');
+                    }
+                } catch (error) {
+                    Pop.error(error);
+                }
+            }
 
         }
     }
-    //  components: { PostForm }
-};
+}
+
 
 
 
