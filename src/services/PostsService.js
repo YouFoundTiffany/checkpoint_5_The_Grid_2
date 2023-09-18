@@ -28,8 +28,6 @@ class PostsService {
     }
 
     async removePost(postId) {
-        if (!postId)
-            throw new Error('No post with that ID!!!!')
         const response = await api.delete(`api/posts/${postId}`);
         logger.log('removed post 📖', response.data);
         AppState.activePost = null;

@@ -1,8 +1,8 @@
 <template>
-  <nav class="mb-2 mt-1 bg-secondary navbar navbar-expand-lg px-3">
+  <nav class="bg-whispering-gray mb-2 mt-1 navbar gridnavbar navbar-expand-lg px-3">
     <!-- ROUTER LINK TO HOME PAGE -->
     <router-link :to="{ name: 'Home' }">
-      <div class="m-0 p-0 logo-container">
+      <div class=" px-4 logo-container">
         <img class="logo-image" src="src/assets/img/GLOGO-clean.png" alt="The Grid Logo">
       </div>
     </router-link>
@@ -42,7 +42,7 @@ export default {
   },
   components: {
     Login,
-    Search, // Corrected component registration
+    Search,
   },
 }
 </script>

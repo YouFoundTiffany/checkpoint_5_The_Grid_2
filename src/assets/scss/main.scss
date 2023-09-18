@@ -4,7 +4,7 @@
 @import "./_utilities.scss";
 @import "./loaders.scss";
 
-body{
+body {
   overscroll-behavior: none;
 }
 
@@ -30,6 +30,7 @@ select {
     &:valid {
       border: 1px solid $success;
     }
+
     &:invalid {
       border: 1px solid $danger;
     }
@@ -39,4 +40,220 @@ select {
 form:invalid button[type="submit"] {
   filter: grayscale(1);
   pointer-events: none;
+}
+
+// ENTER THE GRID!!!!!
+:root {
+  --Midnight-Black: #000000;
+  --Steel-Mist: #66666E;
+  --Cool-Slate: #9999A1;
+  --Whispering-Gray: #E6E6E9;
+  --Silver-Lining: #F4F4F6;
+}
+
+// MAIN BACKGROUND
+.main-page {
+  background: linear-gradient(135deg, var(--Midnight-Black), var(--Steel-Mist) 40%, var(--Cool-Slate) 70%, var(--Whispering-Gray));
+  background-size: 400% 400%;
+  animation: gradientAnimation 15s ease infinite;
+  /* Other main page styles go here */
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+// NAVBAR
+.gridnavbar {
+  background: linear-gradient(270deg, var(--Midnight-Black), var(--Steel-Mist)) !important;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5) !important;
+  padding: 10px 0 !important;
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.navbar-logo {
+  color: #0ff;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.navbar-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+.navbar-link {
+  margin: 0 20px;
+  color: #0ff;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.navbar-link:hover {
+  color: #00f;
+}
+
+.text-midnight-black {
+  color: var(--Midnight-Black);
+}
+
+.text-steel-mist {
+  color: var(--Steel-Mist);
+}
+
+.text-cool-slate {
+  color: var(--Cool-Slate);
+}
+
+.text-whispering-gray {
+  color: var(--Whispering-Gray);
+}
+
+.text-silver-lining {
+  color: var(--Silver-Lining);
+}
+
+/* Background Colors */
+.bg-midnight-black {
+  background-color: var(--Midnight-Black);
+}
+
+.bg-steel-mist {
+  background-color: var(--Steel-Mist);
+}
+
+.bg-cool-slate {
+  background-color: var(--Cool-Slate);
+}
+
+.bg-whispering-gray {
+  background-color: var(--Whispering-Gray);
+}
+
+.bg-silver-lining {
+  background-color: var(--Silver-Lining);
+}
+
+/* Border Colors */
+.border-midnight-black {
+  border-color: var(--Midnight-Black);
+}
+
+.border-steel-mist {
+  border-color: var(--Steel-Mist);
+}
+
+.border-cool-slate {
+  border-color: var(--Cool-Slate);
+}
+
+.border-whispering-gray {
+  border-color: var(--Whispering-Gray);
+}
+
+.border-silver-lining {
+  border-color: var(--Silver-Lining);
+}
+
+/* Hover Effects */
+.hover-midnight-black:hover {
+  color: var(--Midnight-Black);
+  background-color: transparent;
+}
+
+.hover-steel-mist:hover {
+  color: var(--Steel-Mist);
+  background-color: transparent;
+}
+
+.hover-cool-slate:hover {
+  color: var(--Cool-Slate) !important;
+  background-color: transparent !important;
+}
+
+.hover-whispering-gray:hover {
+  color: var(--Whispering-Gray);
+  background-color: transparent;
+}
+
+.hover-silver-lining:hover {
+  color: var(--Silver-Lining);
+  background-color: transparent;
+}
+
+/* Tron Button */
+.tron-button {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--Cool-Slate);
+  /* Grayscale color */
+  background: linear-gradient(45deg, var(--Midnight-Black), var(--Whispering-Gray));
+  /* Grayscale gradient */
+  border: 2px solid var(--Whispering-Gray);
+  /* Grayscale border */
+  border-radius: 5px;
+  transition: background 0.3s, transform 0.3s;
+  cursor: pointer;
+}
+
+.tron-button:hover {
+  background: linear-gradient(45deg, var(--Whispering-Gray), var(--Midnight-Black));
+  /* Grayscale gradient */
+  transform: scale(1.05);
+}
+
+/* Circuit Button */
+.circuit-button {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--Cool-Slate);
+  /* Grayscale color */
+  background: repeating-linear-gradient(45deg, var(--Midnight-Black), var(--Midnight-Black) 10px, var(--Whispering-Gray) 10px, var(--Whispering-Gray) 20px);
+  /* Grayscale repeating gradient */
+  border: 2px solid var(--Whispering-Gray);
+  /* Grayscale border */
+  border-radius: 5px;
+  transition: background 0.3s, transform 0.3s;
+  cursor: pointer;
+  animation: moveCircuit 2s linear infinite;
+}
+
+@keyframes moveCircuit {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 20px 20px;
+  }
+}
+
+.circuit-button:hover {
+  background: repeating-linear-gradient(45deg, #0ff, #0ff 10px, #00f 10px, #00f 20px);
+  transform: scale(1.05);
 }

@@ -1,5 +1,5 @@
 <template>
-    <div class="g-4 p-1 mb-4 card elevation-3 border border-secondary">
+    <div class="g-4 p-1 mb-4 card elevation-3 ">
         <img :src="post.creatorPicture" class="btnclicky profile-pic" alt="">
         <h4 class="">{{ post.creatorName }}</h4>
         <p>{{ formatCreatedAt(post.createdAt) }}</p>
@@ -82,7 +82,7 @@ export default {
             postData,
             activePost: computed(() => AppState.activePost),
             account: computed(() => AppState.account),
-
+            // goToProfileById,
             // async goToProfileById() {
             //     try {
             //         await router.push({ name: 'UserProfile', params: { id: props.profile.id } });
@@ -104,7 +104,7 @@ export default {
                     Pop.error(error);
                 }
             },
-
+            // SERIOUSLY?
             // async deletePost() {
             //     try {
             //         if (await Pop.confirm('Are you sure?')) {
@@ -123,7 +123,7 @@ export default {
             // }
         }
     }
-
+    //  components: { PostForm }
 };
 
 

@@ -38,9 +38,37 @@
 
 
 <script>
+import { onMounted, computed } from 'vue';
+import { useRoute } from 'vue-router';
+import { profilesService } from '../services/ProfilesService.js';
+import Pop from '../utils/Pop.js';
+import { AppState } from '../AppState.js';
+
+
+
 export default {
     setup() {
-        return {};
+
+        const route = useRoute()
+
+        async function getProfile() {
+            try {
+                // NOTE the route params will tell us the id of the profile we are on, we are getting this from the vue router
+                const profileId = route.params.profileId
+                // logger.log('route', route)
+                await profilesService.getProfile(profileId)
+            } catch (error) {
+                // @ts-ignore
+                Pop.error(error.message)
+            }
+        }
+        onMounted(() => {
+            getProfile()
+        })
+        return {
+            profile: computed(() => AppState.activeProfile),
+            profilePosts: computed(() => AppState.projects),
+        };
     },
 };
 </script>

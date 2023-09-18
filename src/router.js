@@ -32,6 +32,12 @@ const routes = [
     name: 'Post Details',
     component: loadPage('PostDetailsPage'),
     props: true
+  },
+  {
+    path: '/api/profiles/:id/posts',
+    name: 'Profile Details',
+    component: loadPage('ProfileDetailsPage'),
+    props: true
   }
 ]
 

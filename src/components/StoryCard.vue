@@ -1,5 +1,5 @@
 <template>
-    <div @click="openDetails" class="g-4 p-1 mb-4 card elevation-3 border border-secondary">
+    <div @click="openDetails" class="g-4 p-1 mb-4 card elevation-3 hover-steel-mist">
         <!-- <div>{{ story.title }}</div> -->
         <img :src="story.square" alt="Square Image" />
         <img :src="story.banner" alt="Banner Image" />
