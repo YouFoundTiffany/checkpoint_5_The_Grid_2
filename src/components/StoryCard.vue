@@ -9,13 +9,16 @@
 <script>
 import { Story } from '../models/Story.js';
 import { logger } from '../utils/Logger.js';
-logger
+import { inject } from 'vue';
+
+
 
 export default {
     props: { story: { type: Story, required: true } },
     setup(props) {
         // logger.log('storycard from setup?', props.story)
         return {
+            AppState,
             async getStories() {
                 // Your async function code here
             }

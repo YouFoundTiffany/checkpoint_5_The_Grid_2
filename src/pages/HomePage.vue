@@ -17,7 +17,9 @@
     <div class="row g-3 p-1 justify-content-between">
       <div class="col-8">
         <!-- ⬇️POSTS TEMPLATE -->
-        <PostCard v-for="post in posts" :key="post.id" :post="post" :profile="profile" creatorId="post.creatorId" />
+        <!-- <PostCard v-for="post in posts" :key="post.id" :post="post" :profile="profile" creatorId="post.creatorId" /> -->
+        <PostCard v-for="post in posts" :key="post.id" :post="post" :profile="profile" :creatorId="post.creatorId" />
+
 
         <!-- ⬆️POSTS TEMPLATE -->
       </div>
@@ -41,6 +43,7 @@ import { storiesService } from '../services/StoriesService.js';
 import { AppState } from '../AppState.js'
 import { logger } from '../utils/Logger.js';
 import axios from 'axios';
+import { inject } from 'vue';
 
 
 export default {

@@ -21,11 +21,17 @@ import { computed, reactive, onMounted, ref } from 'vue';
 import { logger } from '../utils/Logger.js';
 import Pop from '../utils/Pop.js';
 import { postsService } from '../services/PostsService.js';
+import { inject } from 'vue';
+
+
+
+
 export default {
     setup() {
         // NOTE we can create reactive items with ref
         const searchTerm = ref('')
         return {
+            AppState,
             searchTerm,
             activeSearch: computed(() => AppState.searchTerm),
 

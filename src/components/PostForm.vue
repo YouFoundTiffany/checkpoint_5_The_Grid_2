@@ -26,6 +26,8 @@ import { logger } from '../utils/Logger.js';
 import { postsService } from '../services/PostsService.js';
 import Pop from '../utils/Pop.js';
 import { AppState } from '../AppState.js';
+import { inject } from 'vue';
+
 
 
 

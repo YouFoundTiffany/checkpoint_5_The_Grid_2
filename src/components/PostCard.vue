@@ -8,7 +8,7 @@
         <i @click="postVote()" class="mdi mdi-laptop btnclicky">{{
             post.likes.length }}</i>
         <img :src="post.likeIds" class="img-fluid rounded-top" alt="">
-        <i @click="removePost()" class="mdi mdi-select-remove btnclicky"></i>
+        <i @click="deletePost()" class="mdi mdi-select-remove btnclicky"></i>
         <!-- TODO FIGURE OUT HWTO GET LIKE IDS TO DISPLAY NAME. -->
 
     </div>
@@ -16,12 +16,15 @@
 
 
 <script>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { Post } from '../models/Post.js';
 import { Profile } from '../models/Profile.js';
 import { logger } from '../utils/Logger.js';
 import { postsService } from '../services/PostsService.js';
 import Pop from '../utils/Pop.js';
+import { AppState } from '../AppState';
+import { inject } from 'vue';
+
 
 
 
@@ -53,10 +56,10 @@ export default {
         });
 
         return {
+            AppState,
             postData,
             activePost: computed(() => AppState.activePost),
             account: computed(() => AppState.account),
-
 
             async postVote() {
                 try {
@@ -72,17 +75,22 @@ export default {
             },
             async deletePost() {
                 try {
+
                     if (await Pop.confirm('Are you sure?')) {
-                        const postId = AppState.activePost.id
-                        await postsService.removePost(postId)
+                        const postId = this.post.id;
+                        await postsService.removePost(postId);
+                        const postIndex = AppState.posts.findIndex(post => post.id == postId);
+                        if (postIndex !== -1) {
+                            AppState.posts.splice(postIndex, 1);
+                        }
 
+                        Pop.toast('Post deleted successfully');
                     }
-
-
                 } catch (error) {
-                    Pop.error(error)
+                    Pop.error(error);
                 }
             }
+
         }
     },
 };

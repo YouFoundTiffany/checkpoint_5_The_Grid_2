@@ -9,7 +9,7 @@ import './utils/SocketProvider.js'
 
 const root = createApp(App)
 registerGlobalComponents(root)
-
+root.provide('AppState', { postId: null, });
 root
   .use(router)
   .mount('#app')

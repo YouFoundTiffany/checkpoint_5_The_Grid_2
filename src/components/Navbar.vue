@@ -29,10 +29,16 @@
 <script>
 import Login from './Login.vue';
 import Search from './Search.vue';
+import { inject } from 'vue';
+import { AppState } from '../AppState.js'
+
+
 
 export default {
   setup() {
-    return {}
+    return {
+      AppState,
+    }
   },
   components: {
     Login,
