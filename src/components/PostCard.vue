@@ -104,23 +104,7 @@ export default {
                     Pop.error(error);
                 }
             },
-            // SERIOUSLY?
-            // async deletePost() {
-            //     try {
-            //         if (await Pop.confirm('Are you sure?')) {
-            //             const postId = this.post.id;
-            //             await postsService.removePost(postId);
 
-            //             const postIndex = AppState.posts.findIndex(post => post.id == postId);
-            //             if (postIndex !== -1) {
-            //                 AppState.posts.splice(postIndex, 1);
-            //             }
-            //             Pop.toast('Post deleted successfully');
-            //         }
-            //     } catch (error) {
-            //         Pop.error(error);
-            //     }
-            // }
         }
     }
     //  components: { PostForm }

@@ -18,12 +18,9 @@
         <div class="row g-3 p-1 justify-content-between">
             <div class="col-8"> -->
     <!-- ⬇️POSTS TEMPLATE -->
-    <!-- <PostCard v-for="post in posts" :key="post.id" :post="post" :profile="profile" creatorId="post.creatorId" /> -->
-    <!-- <PostCard v-for="post in posts" :key="post.id" :post="post" :profile="profile" -->
-    <!-- :creatorId="post.creatorId" /> -->
-
-
+    <PostCard v-for="post in profilePosts" :key="post.id" :post="post" :profile="profile" />
     <!-- ⬆️POSTS TEMPLATE -->
+
     <!-- </div> -->
 
     <!-- <div class="col-4 d-flex flex-column"> -->
@@ -43,22 +40,25 @@ import { useRoute } from 'vue-router';
 import { profilesService } from '../services/ProfilesService.js';
 import Pop from '../utils/Pop.js';
 import { AppState } from '../AppState.js';
-
+import { logger } from '../utils/Logger.js';
+logger
 
 
 export default {
     setup() {
 
+        // logger.log('route', route)
         const route = useRoute()
 
         async function getProfile() {
             try {
-                // NOTE the route params will tell us the id of the profile we are on, we are getting this from the vue router
-                const profileId = route.params.profileId
-                // logger.log('route', route)
-                await profilesService.getProfile(profileId)
+                const profileId = route.params.profileId;
+                const response = await profilesService.getProfile(profileId);
+                logger.log('API Response:', response);
+
+                AppState.activeProfile = response.profile;
+                AppState.projects = response.profilePosts;
             } catch (error) {
-                // @ts-ignore
                 Pop.error(error.message)
             }
         }

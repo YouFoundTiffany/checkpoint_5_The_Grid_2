@@ -2,12 +2,12 @@
   <!-- ⬇️newer older buttons -->
   <section class="container">
     <div class="row p-2 justify-content-between">
-      <button @click="changePage(pageNumber - 1)" :disabled="pageNumber <= 1" class="col-3 circuit-button "><i
-          class="mdi mdi-arrow-left"></i>Newer</button>
+      <button @click="changePage(pageNumber - 1)" :disabled="pageNumber <= 1" class="col-3  circuit-button text-black"><i
+          class=" mdi mdi-arrow-left"></i>Newer</button>
       <button @click="changePage(pageNumber + 1)" :disabled="pageNumber >= totalPages"
-        class="col-3 circuit-button ">Older<i class="mdi mdi-arrow-right"></i></button>
+        class="col-3 circuit-button text-black">Older<i class="mdi mdi-arrow-right"></i></button>
     </div>
-    <button class="tron-button" @click="openPostForm">Make a Post</button>
+    <button class="tron-button text-black bold-font" @click="openPostForm">Make a Post</button>
 
     <PostForm v-if="showPostForm" @close="closePostForm" />
   </section>

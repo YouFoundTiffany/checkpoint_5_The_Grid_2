@@ -49,9 +49,19 @@ form:invalid button[type="submit"] {
   --Cool-Slate: #9999A1;
   --Whispering-Gray: #E6E6E9;
   --Silver-Lining: #F4F4F6;
+  --Orbie: font-family: 'Orbitron', sans-serif;
 }
 
 // MAIN BACKGROUND
+
+.font-Orb {
+  font-family: var(--Orbie);
+}
+
+.font-Orbs {
+  font-family: 'Orbitron', sans-serif;
+}
+
 .main-page {
   background: linear-gradient(135deg, var(--Midnight-Black), var(--Steel-Mist) 40%, var(--Cool-Slate) 70%, var(--Whispering-Gray));
   background-size: 400% 400%;
@@ -112,6 +122,10 @@ form:invalid button[type="submit"] {
 
 .navbar-link:hover {
   color: #00f;
+}
+
+.bold-font {
+  font-weight: 700;
 }
 
 .text-midnight-black {
@@ -233,7 +247,7 @@ form:invalid button[type="submit"] {
   font-weight: bold;
   color: var(--Cool-Slate);
   /* Grayscale color */
-  background: repeating-linear-gradient(45deg, var(--Midnight-Black), var(--Midnight-Black) 10px, var(--Whispering-Gray) 10px, var(--Whispering-Gray) 20px);
+  background: repeating-linear-gradient(45deg, var(--Steel-Mist), var(--Steel-Mist) 10px, var(--Whispering-Gray) 10px, var(--Whispering-Gray) 20px);
   /* Grayscale repeating gradient */
   border: 2px solid var(--Whispering-Gray);
   /* Grayscale border */
