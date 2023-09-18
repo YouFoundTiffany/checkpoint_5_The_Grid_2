@@ -57,11 +57,13 @@ export default {
 
             async postVote() {
                 try {
-                    const updatedPost = await postsService.postVote(this.Post.id);
-                    // eslint-disable-next-line vue/no-mutating-props
+                    logger.log('this.post:', this.post); // Debugging line
+                    const updatedPost = await postsService.postVote(this.post.id);
+                    logger.log('updatedPost:', updatedPost); // Debugging line
                     this.post.likes = updatedPost.likes;
                     Pop.toast('🤖V0t3 1s C4st!🤖');
                 } catch (error) {
+                    logger.error('Error in postVote:', error); // Debugging line
                     Pop.error(error);
                 }
             },

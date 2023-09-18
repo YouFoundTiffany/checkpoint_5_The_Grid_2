@@ -13,7 +13,7 @@
 
     <div class="" id="navbarText">
       <!-- TODO Activate Search Bar-->
-      <!-- <SearchBar /> -->
+      <SearchBar />
 
       <ul class="navbar-nav me-auto">
         <li>

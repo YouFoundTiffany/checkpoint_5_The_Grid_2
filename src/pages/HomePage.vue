@@ -46,6 +46,8 @@ import { postsService } from '../services/PostsService.js';
 import { storiesService } from '../services/StoriesService.js';
 import { AppState } from '../AppState.js'
 import { logger } from '../utils/Logger.js';
+import axios from 'axios';
+
 
 export default {
   props: {
@@ -53,6 +55,18 @@ export default {
   },
   setup() {
     const posts = ref(null);
+    // GET POSTS FUNCTION
+    async function getPosts() {
+      try {
+        await postsService.getPosts();
+        posts.value = AppState.posts;
+
+        // logger.log('1 Hello from getPosts on HomePage', posts)
+      } catch (error) {
+        Pop.error(error);
+        // logger.log('2 Hello from getPosts on HomePage', posts.value)
+      }
+    }
     // const showPostForm = ref(false);
 
     // function openPostForm() {
@@ -61,18 +75,6 @@ export default {
     // function closePostForm() {
     //   showPostForm.value = false;
     // }
-    // GET POSTS FUNCTION
-    async function getPosts() {
-      try {
-        await postsService.getPosts();
-        posts.value = AppState.posts;
-
-        logger.log('1 Hello from getPosts on HomePage', posts)
-      } catch (error) {
-        Pop.error(error);
-        // logger.log('2 Hello from getPosts on HomePage', posts.value)
-      }
-    }
 
     async function getStories() {
       try {
@@ -92,24 +94,26 @@ export default {
 
 
     // SECTION PAGING POSTS FUNCTIONS
-    // eslint-disable-next-line space-before-function-paren
-    // const changePage = async (number) => {
-    //   try {
-    //     await postsService.changePage(`discover/movie?page=${number}`);
-    //   } catch (error) {
-    //     Pop.error(error);
-    //   }
-    // };
+    const changePage = async (pageNumber) => {
+      try {
+        const apiUrl = `https://sandbox.codeworksacademy.com/api/posts?page=${pageNumber}`;
+        const response = await axios.get(apiUrl);
+        AppState.pageNumber = pageNumber;
+        AppState.posts = response.data.posts;
+        // return response.data;
+      } catch (error) {
+        Pop.error(error);
+      }
+    };
 
-    // eslint-disable-next-line space-before-function-paren
-    // const changePageWithSearch = async (number) => {
-    //   try {
-    //     const searchTerm = ''; // Set your search term here
-    //     await postsService.changePage(`search/movie?query=${searchTerm}&page=${number}`);
-    //   } catch (error) {
-    //     Pop.error(error);
-    //   }
-    // };
+    const changePageWithSearch = async (number) => {
+      try {
+        const searchTerm = ''; // Set your search term here
+        await postsService.changePage(`search/movie?query=${searchTerm}&page=${number}`);
+      } catch (error) {
+        Pop.error(error);
+      }
+    };
 
     onMounted(() => {
       getPosts();
@@ -126,8 +130,8 @@ export default {
       // showPostForm,
       // openPostForm,
       // closePostForm,
-      // changePage,
-      // changePageWithSearch,
+      changePage,
+      changePageWithSearch,
       // getProfiles,
     };
 
