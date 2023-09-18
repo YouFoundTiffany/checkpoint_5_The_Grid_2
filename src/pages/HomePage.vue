@@ -1,5 +1,4 @@
 <template>
-  <!-- TODO enter the Buttons component here when ready and rem out the below section  -->
   <!-- ⬇️newer older buttons -->
   <section class="container">
     <div class="row p-2 justify-content-between">
@@ -19,6 +18,13 @@
       <div class="col-8">
         <!-- ⬇️POSTS TEMPLATE -->
         <PostCard v-for="post in posts" :key="post.id" :post="post" :profile="profile" creatorId="post.creatorId" />
+        <!--
+        <PostCard v-for="post in posts" :key="post.id" :post="post" :profile="profile" creatorId="post.creatorId" />
+
+
+        <PostCard v-for="post in posts" :key="post.id" :post="post" :profile="profile" :creatorId="post.creatorId" />
+
+        <PostCard v-for="post in posts" :key="post.id" :post="post" :profile="profile" creatorId="post.creatorId" /> -->
         <!-- ⬆️POSTS TEMPLATE -->
       </div>
 
@@ -43,22 +49,24 @@ import { logger } from '../utils/Logger.js';
 
 export default {
   props: {
-    profile: { type: Object, required: true }, // Define the "profile" prop
+    profile: { type: Object, required: true },
   },
   setup() {
     const posts = ref(null);
-    const showPostForm = ref(false);
+    // const showPostForm = ref(false);
 
-    function openPostForm() {
-      showPostForm.value = true;
-    }
-    function closePostForm() {
-      showPostForm.value = false;
-    }
+    // function openPostForm() {
+    //   showPostForm.value = true;
+    // }
+    // function closePostForm() {
+    //   showPostForm.value = false;
+    // }
     // GET POSTS FUNCTION
     async function getPosts() {
       try {
         await postsService.getPosts();
+        posts.value = AppState.posts;
+
         logger.log('1 Hello from getPosts on HomePage', posts)
       } catch (error) {
         Pop.error(error);
@@ -85,26 +93,24 @@ export default {
 
     // SECTION PAGING POSTS FUNCTIONS
     // eslint-disable-next-line space-before-function-paren
-    const changePage = async (number) => {
-      try {
-        await postsService.changePage(`discover/movie?page=${number}`);
-      } catch (error) {
-        Pop.error(error);
-      }
-    };
+    // const changePage = async (number) => {
+    //   try {
+    //     await postsService.changePage(`discover/movie?page=${number}`);
+    //   } catch (error) {
+    //     Pop.error(error);
+    //   }
+    // };
 
     // eslint-disable-next-line space-before-function-paren
-    const changePageWithSearch = async (number) => {
-      try {
-        const searchTerm = ''; // Set your search term here
-        await postsService.changePage(`search/movie?query=${searchTerm}&page=${number}`);
-      } catch (error) {
-        Pop.error(error);
-      }
-    };
-    //   onMounted(async () => {
-    //   await Promise.all([getPosts(), getProfiles(), getStories()]);
-    // });
+    // const changePageWithSearch = async (number) => {
+    //   try {
+    //     const searchTerm = ''; // Set your search term here
+    //     await postsService.changePage(`search/movie?query=${searchTerm}&page=${number}`);
+    //   } catch (error) {
+    //     Pop.error(error);
+    //   }
+    // };
+
     onMounted(() => {
       getPosts();
       getStories();
@@ -117,11 +123,11 @@ export default {
       totalPages: computed(() => AppState.totalPages),
       searchTerm: computed(() => AppState.searchTerm),
       profiles: computed(() => AppState.profiles),
-      showPostForm,
-      openPostForm,
-      closePostForm,
-      changePage,
-      changePageWithSearch,
+      // showPostForm,
+      // openPostForm,
+      // closePostForm,
+      // changePage,
+      // changePageWithSearch,
       // getProfiles,
     };
 

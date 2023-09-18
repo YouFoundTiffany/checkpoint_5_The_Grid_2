@@ -1,26 +1,75 @@
 <template>
     <div @click="showPostDetails" class="g-4 p-1 mb-4 card elevation-3 border border-secondary">
-        <!-- <img :src="post.creatorpicture" class="rofile-pic" alt=""> -->
-        <!-- <h4 class="">{{ post.creatorName }}</h4> -->
-        <!-- <p>{{ formatCreatedAt(post.createdAt) }}</p> -->
+        <img :src="post.creatorPicture" class="profile-pic" alt="">
+        <h4 class="">{{ post.creatorName }}</h4>
+        <p>{{ formatCreatedAt(post.createdAt) }}</p>
         <p>{{ post.body }}</p>
         <img class="post-image" :src="post.imgUrl" alt="">
         <i @click="postVote()" class="mdi mdi-laptop btnclicky">{{
             post.likes.length }}</i>
         <img :src="post.likeIds" class="img-fluid rounded-top" alt="">
         <i @click="removePost()" class="mdi mdi-select-remove btnclicky"></i>
+        <!-- TODO FIGURE OUT HWTO GET LIKE IDS TO DISPLAY NAME. -->
 
     </div>
 </template>
+
+
 <script>
+import { ref, onMounted } from 'vue';
+import { Post } from '../models/Post.js';
+import { Profile } from '../models/Profile.js';
+import { logger } from '../utils/Logger.js';
+import { postsService } from '../services/PostsService.js';
+import Pop from '../utils/Pop.js';
+
 
 
 export default {
+    name: 'Profile',
+    props: {
+        post: { type: Post, required: true },
+        profile: { type: Profile, required: true }
+    },
+    methods: {
+        formatCreatedAt(createdAt) {
+            const createdAtDate = new Date(createdAt);
+            const now = new Date();
+            const timeDifference = now - createdAtDate;
+            const hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
 
-    setup() {
-        return {}
-    }
+            if (hoursDifference < 24) {
+                return `${hoursDifference} hours ago`;
+            } else {
+                return createdAtDate.toLocaleDateString();
+            }
+        },
+    }, // Add a comma here
+
+    setup(props) {
+        const postData = ref(null);
+        onMounted(() => {
+            logger.log('datafromappstate', postData.value)
+        });
+
+        return {
+            postData,
+
+            async postVote() {
+                try {
+                    const updatedPost = await postsService.postVote(this.Post.id);
+                    // eslint-disable-next-line vue/no-mutating-props
+                    this.post.likes = updatedPost.likes;
+                    Pop.toast('🤖V0t3 1s C4st!🤖');
+                } catch (error) {
+                    Pop.error(error);
+                }
+            },
+        }
+    },
 };
+
+
 
 
 
@@ -34,8 +83,8 @@ export default {
 }
 
 .profile-pic {
-    height: 30px;
-    width: 30px;
+    height: 75px;
+    width: 75px;
     object-fit: cover;
     object-position: center;
     border-radius: 50em;

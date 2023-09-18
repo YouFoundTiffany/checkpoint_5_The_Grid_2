@@ -8,9 +8,7 @@ class PostsService {
 
     async getPosts() {
         const response = await api.get('api/posts')
-        // logger.log('Its Getting Posts! Posts Service reporting in📖', response.data)
-        AppState.posts = response.data.posts.map(post => new Post(post))
-
+        logger.log('Its Getting Posts! Posts Service reporting in📖', response.data)
         AppState.posts = response.data.posts.map(post => new Post(post))
         AppState.pageNumber = response.data.page
         AppState.totalPages = response.data.total_pages
