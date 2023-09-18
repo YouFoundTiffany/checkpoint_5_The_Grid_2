@@ -1,9 +1,13 @@
 <template>
+    <!-- TODO 🛑 Users have a search format that will display the results of the search for posts or profiles.
+ -->
+    <!-- TODO 🛑 GET RESULTS TO RENDER-->
     <!-- NOTE .prevent works the same as event.preventDefault() -->
     <form @submit.prevent="searchPosts" class="row">
         <div class="col-12 input-group">
             <input v-model="searchTerm" type="text" class="form-control" placeholder="search posts">
-            <button class="btn btn-secondary"><i class="mdi mdi-magnify"></i></button>
+            <!-- FIXME MAKE SURE TO HAVE YOUR BUTTON SUBMIT THE FORM -->
+            <button type=submit class="btn btn-secondary"><i class="mdi mdi-magnify"></i></button>
         </div>
     </form>
     <div v-if="activeSearch" class="mt-2">
@@ -13,7 +17,8 @@
                     class="mdi mdi-close"></i></button></span>
     </div>
 </template>
-
+<!-- TODO 🛑 This query returns object that is not by the id, it is all posts.
+    https://sandbox.codeworksacademy.com/api/profiles/64f211b326bf1902902083c6/posts -->
 
 <script>
 import { AppState } from '../AppState';
@@ -31,7 +36,7 @@ Post
 export default {
     setup() {
         // NOTE we can create reactive items with ref
-        const searchTerm = ref('')
+        const searchTerm = ref({})
         return {
             AppState,
             searchTerm,

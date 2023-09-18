@@ -23,9 +23,9 @@ const routes = [
     beforeEnter: authGuard
   },
   {
-    path: '/profile/:id',
+    path: '/profile/:profileId',
     name: 'Profile Details',
-    component: loadPage('ProfileDetails'),
+    component: loadPage('ProfileDetailsPage'),
   },
   {
     path: '/posts/:postId',
@@ -33,12 +33,12 @@ const routes = [
     component: loadPage('PostDetailsPage'),
     props: true
   },
-  {
-    path: '/api/profiles/:id/posts',
-    name: 'Profile Details',
-    component: loadPage('ProfileDetailsPage'),
-    props: true
-  }
+  // {
+  //   path: '/profiles/:id/posts',
+  //   name: 'Profile Details',
+  //   component: loadPage('ProfileDetailsPage'),
+  //   // props: true
+  // }
 ]
 
 export const router = createRouter({

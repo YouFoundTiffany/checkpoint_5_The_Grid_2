@@ -1,6 +1,6 @@
 <!-- TODO FIX FORM TO CLOSE CORRECTLY AFTER ALL OTHER REQUIREMENTS ACHIEVED -->
 <template>
-    <div>
+    <div v-if="userLoggedIn">
         <form @submit.prevent="createPost">
             <div class="mb-3 col-12">
                 <label for="postBody" class="form-label">Post Content</label>
@@ -13,7 +13,7 @@
                     min="1" required>
                 <img class="img-fluid mt-1 h-100" :src="postData.imgUrl" alt="">
             </div>
-            <button type="" class="mx-1 btnclicky btn btn-secondary">Submit</button>
+            <button type="submit" class="mx-1 btnclicky btn btn-secondary">Submit</button>
             <button @click="deletePost" class="mx-1 btn btn-secondary">Cancel</button>
         </form>
     </div>
@@ -36,6 +36,7 @@ export default {
 
     setup() {
         // const make = ref('') // great for single inputs
+        //REVIEW consider removing the curley braces.
         const postData = ref({})
         const router = useRouter() // router takes you to other pages (it's the vehicle)
         return {

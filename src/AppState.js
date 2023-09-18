@@ -12,11 +12,12 @@ export const AppState = reactive({
   activePost: null,
 
 
-  /** @type {Profile[]} */
-  profile: [],
-
   /** @type {Profile} */
-  activeProfile: null,
+  profile: null,
+
+  // // FIXME probably dont need this
+  // /** @type {Profile} */
+  // activeProfile: null,
 
 
 

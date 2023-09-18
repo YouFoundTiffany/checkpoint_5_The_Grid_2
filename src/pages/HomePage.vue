@@ -1,3 +1,15 @@
+<!-- TODO ✅On Home and Profile pages, users can navigate to 'older' or 'newer' posts if available. -->
+<!-- TODO ✅Once logged in Users can Create Posts -->
+<!-- TODO ✅Once logged in Users can Delete their Post -->
+<!-- TODO ✅Once logged in Users can Like or Unlike Posts -->
+<!-- TODO ✅The UI prevents the modifications/deletion of data the user did not create themselves.  -->
+<!-- TODO ✅Application UI adheres to Minimum Release Standards
+	TODO ✅No visible id's
+	TODO ✅No broken links
+	TODO ✅No silent errors
+	TODO ✅No default template components
+	TODO ✅No raw data dumps to the page -->
+
 <template>
   <!-- ⬇️newer older buttons -->
   <section class="container">
@@ -16,6 +28,8 @@
   <div class="container pt-1">
     <div class="row g-3 p-1 justify-content-between">
       <div class="col-8">
+
+        <!-- TODO GET NEW POSTS TO RENDER WHEN THEY ARE POSTED. -->
         <!-- ⬇️POSTS TEMPLATE -->
         <!-- <PostCard v-for="post in posts" :key="post.id" :post="post" :profile="profile" creatorId="post.creatorId" /> -->
         <PostCard v-for="post in posts" :key="post.id" :post="post" :profile="profile" :creatorId="post.creatorId" />
