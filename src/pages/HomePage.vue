@@ -1,19 +1,130 @@
 <template>
-  <div class="home flex-grow-1 d-flex flex-column align-items-center justify-content-center">
-    <div class="home-card p-5 bg-white rounded elevation-3">
-      <img src="https://bcw.blob.core.windows.net/public/img/8600856373152463" alt="CodeWorks Logo"
-        class="rounded-circle">
-      <h1 class="my-5 bg-dark text-white p-3 rounded text-center">
-        Vue 3 Starter
-      </h1>
+  <!-- TODO enter the Buttons component here when ready and rem out the below section  -->
+  <!-- ⬇️newer older buttons -->
+  <section class="container">
+    <div class="row p-2 justify-content-between">
+      <button @click="changePage(pageNumber - 1)" :disabled="pageNumber <= 1" class="col-3"><i
+          class="mdi mdi-arrow-left"></i>Newer</button>
+      <button @click="changePage(pageNumber + 1)" :disabled="pageNumber >= totalPages" class="col-3">Older<i
+          class="mdi mdi-arrow-right"></i></button>
+    </div>
+    <button @click="openPostForm">Make a Post</button>
+    <!--  create Post component template -->
+    <!-- <PostForm v-if="showPostForm" @close="closePostForm" /> -->
+  </section>
+  <!-- ⬆️newer older buttons -->
+
+  <div class="container pt-1">
+    <div class="row g-3 p-1 justify-content-between">
+      <div class="col-8">
+        <!-- ⬇️POSTS TEMPLATE -->
+        <PostCard v-for="post in posts" :key="post.id" :post="post" :profile="profile" creatorId="post.creatorId" />
+        <!-- ⬆️POSTS TEMPLATE -->
+      </div>
+
+      <div class="col-4 d-flex flex-column">
+        <!-- ⬇️STORIES TEMPLATE -->
+        <StoryCard v-for="story in stories" :key="story.title" :story="story" />
+        <!-- ⬆️STORIES TEMPLATE -->
+      </div>
+
     </div>
   </div>
 </template>
 
 <script>
+import { ref } from 'vue';
+import { computed, onMounted } from 'vue';
+import Pop from '../utils/Pop.js';
+import { postsService } from '../services/PostsService.js';
+import { storiesService } from '../services/StoriesService.js';
+import { AppState } from '../AppState.js'
+import { logger } from '../utils/Logger.js';
+
 export default {
+  props: {
+    profile: { type: Object, required: true }, // Define the "profile" prop
+  },
   setup() {
-    return {}
+    const posts = ref(null);
+    const showPostForm = ref(false);
+
+    function openPostForm() {
+      showPostForm.value = true;
+    }
+    function closePostForm() {
+      showPostForm.value = false;
+    }
+    // GET POSTS FUNCTION
+    async function getPosts() {
+      try {
+        await postsService.getPosts();
+        logger.log('1 Hello from getPosts on HomePage', posts)
+      } catch (error) {
+        Pop.error(error);
+        // logger.log('2 Hello from getPosts on HomePage', posts.value)
+      }
+    }
+
+    async function getStories() {
+      try {
+        await storiesService.getStories()
+      } catch (error) {
+        Pop.error(error);
+      }
+    }
+
+    // async function getProfiles() {
+    //   try {
+    //     await postsService.getPosts()
+    //   } catch (error) {
+    //     Pop.error(error)
+    //   }
+    // }
+
+
+    // SECTION PAGING POSTS FUNCTIONS
+    // eslint-disable-next-line space-before-function-paren
+    const changePage = async (number) => {
+      try {
+        await postsService.changePage(`discover/movie?page=${number}`);
+      } catch (error) {
+        Pop.error(error);
+      }
+    };
+
+    // eslint-disable-next-line space-before-function-paren
+    const changePageWithSearch = async (number) => {
+      try {
+        const searchTerm = ''; // Set your search term here
+        await postsService.changePage(`search/movie?query=${searchTerm}&page=${number}`);
+      } catch (error) {
+        Pop.error(error);
+      }
+    };
+    //   onMounted(async () => {
+    //   await Promise.all([getPosts(), getProfiles(), getStories()]);
+    // });
+    onMounted(() => {
+      getPosts();
+      getStories();
+      // getProfiles();
+    });
+    return {
+      posts: computed(() => AppState.posts),
+      stories: computed(() => AppState.stories),
+      pageNumber: computed(() => AppState.pageNumber),
+      totalPages: computed(() => AppState.totalPages),
+      searchTerm: computed(() => AppState.searchTerm),
+      profiles: computed(() => AppState.profiles),
+      showPostForm,
+      openPostForm,
+      closePostForm,
+      changePage,
+      changePageWithSearch,
+      // getProfiles,
+    };
+
   }
 }
 </script>
@@ -25,6 +136,14 @@ export default {
   place-content: center;
   text-align: center;
   user-select: none;
+
+  .profile-pic {
+    height: 30px;
+    width: 30px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 50em;
+  }
 
   .home-card {
     width: 50vw;

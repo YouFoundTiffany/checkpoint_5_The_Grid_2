@@ -21,6 +21,17 @@ const routes = [
     name: 'Account',
     component: loadPage('AccountPage'),
     beforeEnter: authGuard
+  },
+  {
+    path: '/profile/:id',
+    name: 'Profile Details',
+    component: loadPage('ProfileDetails'),
+  },
+  {
+    path: '/posts/:postId',
+    name: 'Post Details',
+    component: loadPage('PostDetailsPage'),
+    props: true
   }
 ]
 

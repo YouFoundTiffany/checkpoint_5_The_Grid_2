@@ -1,20 +1,27 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
-    <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
-      <div class="d-flex flex-column align-items-center">
-        <img alt="logo" src="../assets/img/cw-logo.png" height="45" />
+  <nav class="mb-2 mt-1 justify-content-between bg-secondary navbar navbar-expand-lg px-3">
+    <!-- ROUTER LINK TO HOME PAGE -->
+    <router-link :to="{ name: 'Home' }">
+      <div class="m-0 p-0 logo-container">
+        <img class="logo-image" src="src/assets/img/GLOGO-clean.png" alt="The Grid Logo">
       </div>
     </router-link>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
-      aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarText">
+
+
+
+
+
+    <div class="" id="navbarText">
+      <!-- TODO Activate Search Bar-->
+      <!-- <SearchBar /> -->
+
       <ul class="navbar-nav me-auto">
         <li>
-          <router-link :to="{ name: 'About' }" class="btn text-success lighten-30 selectable text-uppercase">
+          <!-- about router link -->
+          <!-- <router-link :to="{ name: 'About' }" class="btn text-success lighten-30 selectable text-uppercase">
             About
-          </router-link>
+          </router-link> -->
+          <!-- about router link -->
         </li>
       </ul>
       <!-- LOGIN COMPONENT HERE -->
@@ -32,21 +39,50 @@ export default {
   components: { Login }
 }
 </script>
-
-<style scoped>
-a:hover {
-  text-decoration: none;
+<style>
+.logo-container {
+  max-width: 100%;
+  max-height: contain;
+  text-align: center;
 }
+
+/* Style for the image */
+.logo-image {
+  max-height: 47px;
+  max-width: 100%;
+  object-fit: cover;
+  object-position: center
+    /* max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto; */
+}
+
+
+.logo-image:hover {
+  background: url('/image.png') no-repeat 9px 12px;
+  -webkit-filter: drop-shadow(0 0 8px rgb(210, 210, 210));
+  /* webkit only
+                     assuming the content is written in black */
+  filter: drop-shadow(0 0 8px rgb(210, 210, 210));
+  /* FF~35 */
+  filter: drop-shadow(0 0 8px rgb(210, 210, 210));
+  /* MDN */
+}
+
+/* a:hover {
+  text-decoration: none;
+} */
 
 .nav-link {
   text-transform: uppercase;
 }
 
-.navbar-nav .router-link-exact-active {
+/* .navbar-nav .router-link-exact-active {
   border-bottom: 2px solid var(--bs-success);
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
-}
+} */
 
 @media screen and (min-width: 768px) {
   nav {
