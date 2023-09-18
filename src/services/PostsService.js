@@ -13,6 +13,11 @@ class PostsService {
         AppState.pageNumber = response.data.page;
         AppState.totalPages = response.data.total_pages;
     }
+    async postVote(postId) {
+        const response = await api.post(`api/posts/${postId}/like`)
+        // logger.log('voting✅', response.data)
+        return new Post(response.data)
+    }
 
     async createPost(postData) {
         const response = await api.post('api/posts', postData);
@@ -23,6 +28,8 @@ class PostsService {
     }
 
     async removePost(postId) {
+        if (!postId)
+            throw new Error('No post with that ID!!!!')
         const response = await api.delete(`api/posts/${postId}`);
         logger.log('removed post 📖', response.data);
         AppState.activePost = null;

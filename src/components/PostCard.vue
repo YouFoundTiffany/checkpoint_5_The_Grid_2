@@ -1,5 +1,5 @@
 <template>
-    <div @click="showPostDetails" class="g-4 p-1 mb-4 card elevation-3 border border-secondary">
+    <div class="g-4 p-1 mb-4 card elevation-3 border border-secondary">
         <img :src="post.creatorPicture" class="btnclicky profile-pic" alt="">
         <h4 class="">{{ post.creatorName }}</h4>
         <p>{{ formatCreatedAt(post.createdAt) }}</p>
@@ -17,7 +17,9 @@
 
 <script>
 import { ref, onMounted, computed } from 'vue';
+
 import { Post } from '../models/Post.js';
+import { useRouter } from 'vue-router';
 import { Profile } from '../models/Profile.js';
 import { logger } from '../utils/Logger.js';
 import { postsService } from '../services/PostsService.js';
@@ -29,7 +31,8 @@ import { inject } from 'vue';
 
 
 export default {
-    name: 'Profile',
+    name: 'Profile-PostCard',
+
     props: {
         post: { type: Post, required: true },
         profile: { type: Profile, required: true }
@@ -47,12 +50,31 @@ export default {
                 return createdAtDate.toLocaleDateString();
             }
         },
-    }, // Add a comma here
+        async deletePost() {
+            try {
+                if (await Pop.confirm('Are you sure?')) {
+                    const postId = this.post.id;
+                    await postsService.removePost(postId);
+
+                    const postIndex = AppState.posts.findIndex(post => post.id == postId);
+                    if (postIndex !== -1) {
+                        AppState.posts.splice(postIndex, 1);
+                    }
+                    Pop.toast('Post deleted successfully');
+                }
+            } catch (error) {
+                Pop.error(error);
+            }
+        }
+    },
 
     setup(props) {
+        const appState = inject('AppState');
         const postData = ref(null);
+        const router = useRouter(); // Initialize the router object
+
         onMounted(() => {
-            // logger.log('datafromappstate', postData.value)
+            // ...
         });
 
         return {
@@ -61,40 +83,48 @@ export default {
             activePost: computed(() => AppState.activePost),
             account: computed(() => AppState.account),
 
+            // async goToProfileById() {
+            //     try {
+            //         await router.push({ name: 'UserProfile', params: { id: props.profile.id } });
+            //         logger.log('is this on?');
+            //     } catch (error) {
+            //         Pop.error(error);
+            //     }
+            // },
+
             async postVote() {
                 try {
-                    logger.log('this.post:', this.post); // Debugging line
-                    const updatedPost = await postsService.postVote(this.post.id);
-                    logger.log('updatedPost:', updatedPost); // Debugging line
-                    this.post.likes = updatedPost.likes;
+                    logger.log('this.post:', this.post);
+                    const updatedPost = await postsService.postVote(props.post.id);
+                    logger.log('updatedPost:', updatedPost);
+                    props.post.likes = updatedPost;
                     Pop.toast('🤖V0t3 1s C4st!🤖');
                 } catch (error) {
-                    logger.error('Error in postVote:', error); // Debugging line
+                    logger.error('Error in postVote:', error);
                     Pop.error(error);
                 }
             },
-            async deletePost() {
-                try {
 
-                    if (await Pop.confirm('Are you sure?')) {
-                        const postId = this.post.id;
-                        await postsService.removePost(postId);
-                        const postIndex = AppState.posts.findIndex(post => post.id == postId);
-                        if (postIndex !== -1) {
-                            AppState.posts.splice(postIndex, 1);
-                        }
+            // async deletePost() {
+            //     try {
+            //         if (await Pop.confirm('Are you sure?')) {
+            //             const postId = this.post.id;
+            //             await postsService.removePost(postId);
 
-                        Pop.toast('Post deleted successfully');
-                    }
-                } catch (error) {
-                    Pop.error(error);
-                }
-            }
-
+            //             const postIndex = AppState.posts.findIndex(post => post.id == postId);
+            //             if (postIndex !== -1) {
+            //                 AppState.posts.splice(postIndex, 1);
+            //             }
+            //             Pop.toast('Post deleted successfully');
+            //         }
+            //     } catch (error) {
+            //         Pop.error(error);
+            //     }
+            // }
         }
-    },
-};
+    }
 
+};
 
 
 
