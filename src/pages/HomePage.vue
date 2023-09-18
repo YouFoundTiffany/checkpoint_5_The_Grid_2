@@ -18,13 +18,7 @@
       <div class="col-8">
         <!-- ⬇️POSTS TEMPLATE -->
         <PostCard v-for="post in posts" :key="post.id" :post="post" :profile="profile" creatorId="post.creatorId" />
-        <!--
-        <PostCard v-for="post in posts" :key="post.id" :post="post" :profile="profile" creatorId="post.creatorId" />
 
-
-        <PostCard v-for="post in posts" :key="post.id" :post="post" :profile="profile" :creatorId="post.creatorId" />
-
-        <PostCard v-for="post in posts" :key="post.id" :post="post" :profile="profile" creatorId="post.creatorId" /> -->
         <!-- ⬆️POSTS TEMPLATE -->
       </div>
 

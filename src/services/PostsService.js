@@ -38,13 +38,13 @@ class PostsService {
             AppState.posts.splice(indexToRemove, 1)
         }
     }
-    async searchGriddies(searchTerm) {
-        const response = await api.get(`search/posts?query=${searchTerm}`)
+    async searchPosts(searchTerm) {
+        const response = await api.get(`/api/posts?query=${searchTerm}`);
         logger.log('🔮', response.data)
-        AppState.posts = response.data.posts.map(posts => new posts(posts))
-        AppState.pageNumber = response.data.page
-        AppState.totalPages = response.data.total_pages
-        AppState.searchTerm = searchTerm
+        AppState.posts = response.data.posts.map(post => new Post(post));
+        AppState.pageNumber = response.data.page;
+        AppState.totalPages = response.data.totalPages;
+        AppState.searchTerm = searchTerm;
     }
 
     async clearSearch() {

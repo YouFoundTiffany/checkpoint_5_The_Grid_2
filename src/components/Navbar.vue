@@ -32,13 +32,19 @@
 
 <script>
 import Login from './Login.vue';
+import Search from './Search.vue';
+
 export default {
   setup() {
     return {}
   },
-  components: { Login }
+  components: {
+    Login,
+    Search, // Corrected component registration
+  },
 }
 </script>
+
 <style>
 .logo-container {
   max-width: 100%;
