@@ -3,8 +3,8 @@
 -->
 <!-- TODO ✅Each page shows at least 2 ads from the api collection. -->
 <template>
-    <!-- TODO  Clicking on a post's creator image navigates to that user's Profile page. -->
-    <div class="g-4 p-1 mb-4 card elevation-3 ">
+    <!-- TODO ✅ Clicking on a post's creator image navigates to that user's Profile page. -->
+    <div class="g-4 p-1 mb-4 card elevation-3">
         <router-link :to="{ name: 'Profile Details', params: { profileId: post.creatorId } }">
             <img :src="post.creatorPicture" class="btnclicky profile-pic" alt="">
         </router-link>

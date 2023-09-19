@@ -29,9 +29,7 @@
     <div class="row g-3 p-1 justify-content-between">
       <div class="col-8">
 
-        <!-- TODO GET NEW POSTS TO RENDER WHEN THEY ARE POSTED. -->
         <!-- ⬇️POSTS TEMPLATE -->
-        <!-- <PostCard v-for="post in posts" :key="post.id" :post="post" :profile="profile" creatorId="post.creatorId" /> -->
         <PostCard v-for="post in posts" :key="post.id" :post="post" :creatorId="post.creatorId" />
 
 
@@ -71,15 +69,11 @@ export default {
       try {
         await postsService.getPosts();
         posts.value = AppState.posts;
-
-        // logger.log('1 Hello from getPosts on HomePage', posts)
       } catch (error) {
         Pop.error(error);
-        // logger.log('2 Hello from getPosts on HomePage', posts.value)
       }
     }
     const showPostForm = ref(false);
-
     function openPostForm() {
       showPostForm.value = true;
     }
@@ -124,7 +118,7 @@ export default {
     onMounted(() => {
       getPosts();
       getStories();
-      // getProfiles();
+
     });
     return {
       posts: computed(() => AppState.posts),
