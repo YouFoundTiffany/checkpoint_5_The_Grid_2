@@ -55,15 +55,15 @@ import Pop from '../utils/Pop.js';
 import { postsService } from '../services/PostsService.js';
 import { storiesService } from '../services/StoriesService.js';
 import { AppState } from '../AppState.js'
-import { logger } from '../utils/Logger.js';
 import axios from 'axios';
-import { inject } from 'vue';
+import { Post } from '../models/Post.js';
 
 
 export default {
-  // props: {
+  props: {
+    post: { type: Post, required: true }
+  },
   //   profile: { type: Object, required: true },
-  // },
   setup() {
     const posts = ref(null);
     // GET POSTS FUNCTION
@@ -98,6 +98,7 @@ export default {
 
 
     // SECTION PAGING POSTS FUNCTIONS
+    // eslint-disable-next-line space-before-function-paren
     const changePage = async (pageNumber) => {
       try {
         const apiUrl = `https://sandbox.codeworksacademy.com/api/posts?page=${pageNumber}`;
@@ -110,6 +111,7 @@ export default {
       }
     };
 
+    // eslint-disable-next-line space-before-function-paren
     const changePageWithSearch = async (number) => {
       try {
         const searchTerm = ''; // Set your search term here

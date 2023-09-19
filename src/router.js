@@ -12,33 +12,17 @@ const routes = [
     component: loadPage('HomePage')
   },
   {
-    path: '/about',
-    name: 'About',
-    component: loadPage('AboutPage')
-  },
-  {
     path: '/account',
     name: 'Account',
     component: loadPage('AccountPage'),
     beforeEnter: authGuard
   },
   {
-    path: '/profile/:profileId',
+    path: '/profiles/:profileId/posts',
     name: 'Profile Details',
     component: loadPage('ProfileDetailsPage'),
   },
-  {
-    path: '/posts/:postId',
-    name: 'Post Details',
-    component: loadPage('PostDetailsPage'),
-    props: true
-  },
-  // {
-  //   path: '/profiles/:id/posts',
-  //   name: 'Profile Details',
-  //   component: loadPage('ProfileDetailsPage'),
-  //   // props: true
-  // }
+
 ]
 
 export const router = createRouter({

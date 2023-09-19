@@ -23,11 +23,10 @@
 
 <script>
 import { AppState } from '../AppState';
-import { computed, reactive, onMounted, ref } from 'vue';
+import { computed, ref } from 'vue';
 import { logger } from '../utils/Logger.js';
 import Pop from '../utils/Pop.js';
 import { postsService } from '../services/PostsService.js';
-import { inject } from 'vue';
 import { api } from '../services/AxiosService.js';
 import { Post } from '../models/Post.js';
 Post

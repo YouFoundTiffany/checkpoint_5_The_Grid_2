@@ -1,11 +1,13 @@
+<!-- eslint-disable vue/no-mutating-props -->
 <!-- TODO ✅ All posts render all post data (✅creator name, ✅creator picture, ✅createdAt,✅ body, ✅like count).
 -->
 <!-- TODO ✅Each page shows at least 2 ads from the api collection. -->
 <template>
     <!-- TODO  Clicking on a post's creator image navigates to that user's Profile page. -->
-    <!-- TODO Auto refresh posts -->
     <div class="g-4 p-1 mb-4 card elevation-3 ">
-        <img :src="post.creatorPicture" class="btnclicky profile-pic" alt="">
+        <router-link :to="{ name: 'Profile Details', params: { profileId: post.creatorId } }">
+            <img :src="post.creatorPicture" class="btnclicky profile-pic" alt="">
+        </router-link>
         <h4 class="">{{ post.creatorName }}</h4>
         <p>{{ post.createdAt.toLocaleDateString() }}</p>
         <p>{{ post.body }}</p>
@@ -13,9 +15,7 @@
         <i @click="postVote()" class="mdi mdi-laptop btnclicky">{{
             post.likes.length }}</i>
         <img :src="post.likeIds" class="img-fluid rounded-top" alt="">
-        <!-- FIXME MAKE SURE TO ONLY SHOW IF IM THE USER THAT CREATED THIS POST -->
         <i v-if="post.creatorId == account.id" @click="deletePost()" class="mdi mdi-select-remove btnclicky fs-1"></i>
-        <!-- TODO FIGURE OUT HWTO GET LIKE IDS TO DISPLAY NAME. -->
 
     </div>
 </template>
@@ -25,13 +25,11 @@
 import { ref, onMounted, computed } from 'vue';
 
 import { Post } from '../models/Post.js';
-import { useRouter } from 'vue-router';
-import { Profile } from '../models/Profile.js';
 import { logger } from '../utils/Logger.js';
 import { postsService } from '../services/PostsService.js';
 import Pop from '../utils/Pop.js';
 import { AppState } from '../AppState';
-import { inject } from 'vue';
+
 
 
 
@@ -40,20 +38,14 @@ export default {
     name: 'Profile-PostCard',
 
     props: {
-        post: { type: Post, required: true },
-        // profile: { type: Profile, required: true },
-        // props: {
-        //     showButton: { type: Boolean, default: false }, id: { type: String, required: true },
-        // },
+        post: { type: Post, required: true }, userLoggedIn: Boolean,
     },
 
     setup(props) {
-        const appState = inject('AppState');
         const postData = ref(null);
-        const router = useRouter(); // Initialize the router object
-
+        // const router = useRouter();
         onMounted(() => {
-            // ...
+
         });
 
         return {

@@ -21,12 +21,10 @@
 
 <script>
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
 import { logger } from '../utils/Logger.js';
 import { postsService } from '../services/PostsService.js';
 import Pop from '../utils/Pop.js';
 import { AppState } from '../AppState.js';
-import { inject } from 'vue';
 
 
 
@@ -37,8 +35,7 @@ export default {
     setup() {
         // const make = ref('') // great for single inputs
         //REVIEW consider removing the curley braces.
-        const postData = ref({})
-        const router = useRouter() // router takes you to other pages (it's the vehicle)
+        const postData = ref()
         return {
 
             postData,
@@ -51,7 +48,7 @@ export default {
                     Pop.toast('Post Created', 'success');
                 } catch (error) {
                     Pop.error(error);
-                    postData.value = {} // Reset the form data
+                    postData.value = {}
 
                 }
             },

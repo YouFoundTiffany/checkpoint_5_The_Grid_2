@@ -55,8 +55,6 @@ import { logger } from '../utils/Logger.js';
 
 export default {
     setup() {
-
-        // logger.log('route', route)
         const route = useRoute()
 
         async function getProfile() {
@@ -64,10 +62,6 @@ export default {
                 logger.log('GETTING PROFILE')
                 const profileId = route.params.profileId;
                 await profilesService.getProfile(profileId);
-                // logger.log('API Response:', response);
-
-                // AppState.profile = response.profile;
-                // AppState.projects = response.profilePosts;
             } catch (error) {
                 Pop.error(error.message)
             }
