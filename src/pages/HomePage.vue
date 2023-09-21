@@ -1,27 +1,17 @@
-<!-- TODO ✅On Home and Profile pages, users can navigate to 'older' or 'newer' posts if available. -->
-<!-- TODO ✅Once logged in Users can Create Posts -->
-<!-- TODO ✅Once logged in Users can Delete their Post -->
-<!-- TODO ✅Once logged in Users can Like or Unlike Posts -->
-<!-- TODO ✅The UI prevents the modifications/deletion of data the user did not create themselves.  -->
-<!-- TODO ✅Application UI adheres to Minimum Release Standards
-	TODO ✅No visible id's
-	TODO ✅No broken links
-	TODO ✅No silent errors
-	TODO ✅No default template components
-	TODO ✅No raw data dumps to the page -->
-
 <template>
-  <!-- ⬇️newer older buttons -->
   <section class="container">
     <div class="row p-2 justify-content-between">
-      <button @click="changePage(pageNumber - 1)" :disabled="pageNumber <= 1" class="col-3  circuit-button text-black"><i
-          class=" mdi mdi-arrow-left"></i>Newer</button>
+      <button @click="changePage(pageNumber - 1)" :disabled="pageNumber <= 1" class="col-3 circuit-button text-black">
+        <i class="mdi mdi-arrow-left"></i>Newer
+      </button>
       <button @click="changePage(pageNumber + 1)" :disabled="pageNumber >= totalPages"
-        class="col-3 circuit-button text-black">Older<i class="mdi mdi-arrow-right"></i></button>
+        class="col-3 circuit-button text-black">
+        Older<i class="mdi mdi-arrow-right"></i>
+      </button>
     </div>
-    <button class="tron-button text-black bold-font" v-if="account.id" @click="openPostForm">Make a Post</button>
 
-    <PostForm v-if="account.id" @close="closePostForm" />
+    <!-- <button class="tron-button text-black bold-font" v-if="account.id">Make a Post</button> -->
+    <PostForm v-if="account.id" />
   </section>
   <!-- ⬆️newer older buttons -->
 
@@ -73,13 +63,7 @@ export default {
         Pop.error(error);
       }
     }
-    const showPostForm = ref(false);
-    function openPostForm() {
-      showPostForm.value = true;
-    }
-    function closePostForm() {
-      showPostForm.value = false;
-    }
+
 
     async function getStories() {
       try {
@@ -128,12 +112,11 @@ export default {
       searchTerm: computed(() => AppState.searchTerm),
       profiles: computed(() => AppState.profiles),
       account: computed(() => AppState.account),
-      showPostForm,
-      openPostForm,
-      closePostForm,
+      // showPostForm,
+      // openPostForm,
+      // closePostForm,
       changePage,
       changePageWithSearch,
-      // getProfiles,
     };
   },
   components: {}

@@ -1,25 +1,12 @@
 <template>
-    <!-- TODO 🛑 Users have a search format that will display the results of the search for posts or profiles.
- -->
-    <!-- TODO 🛑 GET RESULTS TO RENDER-->
-    <!-- NOTE .prevent works the same as event.preventDefault() -->
     <form @submit.prevent="searchProfs" class="row">
         <div class="col-12 input-group">
-            <input v-model="searchTerm" type="text" class="form-control" placeholder="search posts">
-            <!-- FIXME MAKE SURE TO HAVE YOUR BUTTON SUBMIT THE FORM -->
-            <button type=submit class="btn btn-secondary"><i class="mdi mdi-magnify"></i></button>
+            <input v-model="searchTerm" type="text" class="form-control" :placeholder="placeholderText"
+                @focus="clearPlaceholder">
+            <button type="submit" class="btn btn-secondary"><i class="mdi mdi-magnify"></i></button>
         </div>
     </form>
-    <!-- NOTE no longer have function? -->
-    <!-- <div v-if="activeSearch" class="mt-2">
-        searching results for: -->
-    <!--
-    <span class="border border-primary rounded-pill p-2">{{ activeSearch }} <button @click="clearSearch" class="btn"><i
-                class="mdi mdi-close"></i></button></span> -->
-    <!-- </div> -->
 </template>
-<!-- TODO 🛑 This query returns object that is not by the id, it is all posts.
-    https://sandbox.codeworksacademy.com/api/profiles/64f211b326bf1902902083c6/posts -->
 
 <script>
 import { AppState } from '../AppState';
@@ -29,50 +16,37 @@ import Pop from '../utils/Pop.js';
 import { postsService } from '../services/PostsService.js';
 import { api } from '../services/AxiosService.js';
 import { Post } from '../models/Post.js';
-Post
-
-// REVIEW   const searchTerm = ref({}) VS      const searchTerm = ref('')
-
-
 
 export default {
     setup() {
-        // NOTE we can create reactive items with ref
-        const searchTerm = ref({})
+        const searchTerm = ref('');
+        const placeholderText = 'Search posts';
+
         return {
             AppState,
             searchTerm,
+            placeholderText,
             activeSearch: computed(() => AppState.searchTerm),
 
-            async searchProfs(searchTerm) {
+            async searchProfs() {
                 try {
-                    const response = await api.get(`/api/posts?query=${searchTerm}`);
+                    const response = await api.get(`/api/posts?query=${this.searchTerm}`);
                     logger.log('🔮', response.data);
                     this.posts = response.data.posts.map(post => new Post(post));
                     this.pageNumber = response.data.page;
                     this.totalPages = response.data.totalPages;
-                    this.searchTerm = searchTerm;
+                    AppState.searchTerm = this.searchTerm; // Update the global search term
                 } catch (error) {
                     Pop.error(error);
                 }
             },
 
-            async clearSearch() {
-                try {
-                    if (await Pop.confirm('Clear search results?')) {
-                        await postsService.clearSearch()
-                        // NOTE clearing the form the new way
-                        searchTerm.value = ''
-                    }
-                } catch (error) {
-                    Pop.error(error)
-                }
+            clearPlaceholder() {
+                this.placeholderText = ''; // Clear the placeholder text when the input is focused
             }
-        }
+        };
     }
 };
 </script>
-
-
 
 <style lang="scss" scoped></style>

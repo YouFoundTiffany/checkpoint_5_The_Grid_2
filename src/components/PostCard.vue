@@ -1,7 +1,5 @@
 <!-- eslint-disable vue/no-mutating-props -->
-<!-- TODO ✅ All posts render all post data (✅creator name, ✅creator picture, ✅createdAt,✅ body, ✅like count).
--->
-<!-- TODO ✅Each page shows at least 2 ads from the api collection. -->
+
 <template>
     <!-- TODO ✅ Clicking on a post's creator image navigates to that user's Profile page. -->
     <div class="g-4 p-1 mb-4 card elevation-3">
@@ -74,6 +72,7 @@ export default {
                     logger.log('this.post:', this.post);
                     const updatedPost = await postsService.postVote(props.post.id);
                     logger.log('updatedPost:', updatedPost);
+                    // eslint-disable-next-line vue/no-mutating-props
                     props.post.likes = updatedPost;
                     Pop.toast('🤖V0t3 1s C4st!🤖');
                 } catch (error) {

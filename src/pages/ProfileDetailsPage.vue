@@ -1,11 +1,3 @@
-
-        <!-- TODO 🛑The Profile pages shows only and all posts made by that user. -->
-        <!-- TODO 🛑The Profile page includes the users profile details(picture, name, bio, social media links, cover image, alumni status(graduated(with icon? suggested, not true or false), class).
-        -->
-        <!-- TODO 🛑Refreshing while on the Profile page shows its required content. i.e. all the info stays there and isn't broken. -->
-        <!-- TODO 🛑On Home and Profile pages, users can navigate to 'older' or 'newer' posts if available. -->
-        <!-- TODO 🛑Once logged in Users can Edit their Account -->
-
 <template>
     <section v-if="profile">
 
@@ -18,9 +10,9 @@
                 <button @click="changePage(pageNumber + 1)" :disabled="pageNumber >= totalPages" class="col-3">Older<i
                         class="mdi mdi-arrow-right"></i></button>
             </div>
-            <button @click="openPostForm">Make a Post</button>
 
-            <PostForm v-if="showPostForm" @close="closePostForm" />
+
+            <!-- <PostForm v-if="account.id" /> -->
         </section>
         <!-- ⬆️newer older buttons -->
 
@@ -46,7 +38,7 @@
                         </div>
                     </div>
                     <!-- ⬇️POSTS TEMPLATE -->
-                    <PostCard v-for="post in profilePosts" :key="post.id" :post="post" :profile="profile" />
+                    <PostCard v-for="post in posts" :key="post.id" :post="profilePosts" :profile="profile" />
                     <!-- ⬆️POSTS TEMPLATE -->
 
                 </div>
@@ -76,8 +68,9 @@ import { storiesService } from '../services/StoriesService.js';
 import axios from 'axios';
 import { postsService } from '../services/PostsService.js';
 
+
 export default {
-    props: { story: { type: Story, required: true }, post: { type: Post, required: true } },
+    props: { story: { type: Story, required: true }, profilePosts: { type: Post, required: true }, post: { type: Post, required: true } },
     setup() {
         const route = useRoute()
 
@@ -97,13 +90,15 @@ export default {
                 Pop.error(error);
             }
         }
-        const showPostForm = ref(false);
-        function openPostForm() {
-            showPostForm.value = true;
-        }
-        function closePostForm() {
-            showPostForm.value = false;
-        }
+
+        // async function profilePosts() {
+        //     try {
+        //         await profilesService.profilePosts()
+        //     } catch (error) {
+        //         Pop.error(error)
+        //     }
+        // }
+
         // SECTION PAGING POSTS FUNCTIONS
         // eslint-disable-next-line space-before-function-paren
         const changePage = async (pageNumber) => {
@@ -131,26 +126,23 @@ export default {
 
 
         onMounted(() => {
-            getProfile()
+            // getProfile()
             getStories();
+            // profilePosts();
         })
 
         return {
+            profilePost: computed(() => AppState.profilePosts),
             profile: computed(() => AppState.profile),
-            profilePosts: computed(() => AppState.projects),
+            // posts: computed(() => AppState.projects),
             posts: computed(() => AppState.posts),
             stories: computed(() => AppState.stories),
             pageNumber: computed(() => AppState.pageNumber),
             totalPages: computed(() => AppState.totalPages),
             searchTerm: computed(() => AppState.searchTerm),
             profiles: computed(() => AppState.profiles),
-            account: computed(() => AppState.account),
-            showPostForm,
-            openPostForm,
-            closePostForm,
             changePage,
             changePageWithSearch,
-            // getProfiles,
         };
     },
     components: {}
