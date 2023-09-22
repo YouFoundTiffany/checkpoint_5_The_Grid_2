@@ -132,13 +132,13 @@ export default {
   text-align: center;
   user-select: none;
 
-  .profile-pic {
-    height: 30px;
-    width: 30px;
-    object-fit: cover;
-    object-position: center;
-    border-radius: 50em;
-  }
+  // .profile-pic {
+  //   height: 30px;
+  //   width: 30px;
+  //   object-fit: cover;
+  //   object-position: center;
+  //   border-radius: 50em;
+  // }
 
   .home-card {
     width: 50vw;
